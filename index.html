@@ -106,6 +106,7 @@
         let particles =[];
         let messageIndex = 0;
         let isExploding = false;
+        let currentText = null; // Câu đang hiển thị
 
         class Particle {
             constructor(x, y) {
@@ -162,6 +163,7 @@
         }
 
         function createParticlesForText(text) {
+            currentText = text;
             const offscreenCanvas = document.createElement('canvas');
             const offCtx = offscreenCanvas.getContext('2d', { willReadFrequently: true });
             offscreenCanvas.width = canvas.width;
@@ -264,8 +266,8 @@
             canvas.height = window.innerHeight;
             bgCanvas.width = window.innerWidth;
             bgCanvas.height = window.innerHeight;
-            messageIndex = (messageIndex === 0) ? messages.length - 1 : messageIndex - 1;
-            createParticlesForText(messages[messageIndex]);
+            // Chỉ vẽ lại câu đang hiển thị, không đụng vào messageIndex (tránh nhảy câu trên phone)
+            if (currentText !== null) createParticlesForText(currentText);
         });
 
     </script>
